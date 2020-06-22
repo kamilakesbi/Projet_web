@@ -12,34 +12,66 @@
 <script>
     var canvas;
     var ctx;
+    var path;
 
     function init(){
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
 
+        // Création des points du canevas  :
         for (var i=1 ; i<10 ; i++){
             for (var j=1 ; j<10 ; j++) {
                 ctx.fillRect(i*50, j*50, 5, 5);
             }
         }
 
-        drawLine(55,52,100,52)
+        // Création des lignes du Canevas :
+        path = [];
+        for (var i =1 ; i<9; i++){
+            for (var j=1; j<9; j++){
+                path.push(creatLine(i*50+5 , j*50 + 2.5, (i+1)*50, j*50 +2.5));
+                path.push(creatLine(i*50 + 2.5, j*50 +5, i*50 +2.5, (j+1)*50));
+            }
+        }
+        // Ajout de lignes sur les bords :
+        for (var j =1 ; j<9; j++){
+            path.push(creatLine(9*50 +2.5, j*50+5, 9*50 +2.5, (j+1)*50));
+        }
+        for (var i =1 ; i <9; i ++){
+            path.push(creatLine(i*50+ 5, 9*50 + 2.5, (i+1)*50, 9*50 + 2.5));
+        }
     }
 
-    function GetCoordinates(event){
+    // Fonction qui permet de surligner une ligne lors du passage de la souris par dessus :
+    function hoverOnLine(event){
         var XYrect = canvas.getBoundingClientRect();
         var Xcurseur = Math.round(event.clientX - XYrect.left);
         var Ycurseur = Math.round(event.clientY - XYrect.top);
 
-
-        if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10){
-            if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10) {
-                drawLine( Math.trunc(Xcurseur / 50)*50 , Math.trunc(Ycurseur / 50)*50, (Math.trunc(Xcurseur / 50))*50 +50, Math.trunc(Ycurseur / 50)*50, 'red') ;
+        for (var p=0; p <path.length; p++) {
+            if (ctx.isPointInStroke(path[p], Xcurseur, Ycurseur)) {
+                ctx.strokeStyle = 'red';
+                ctx.fill();
+                ctx.stroke(path[p]);
+            } else {
+                ctx.strokeStyle = '#DCDCDC';
+                ctx.fill();
+                ctx.stroke(path[p]);
             }
         }
     }
 
-    function drawLine(x,y,a,b, color) {
+
+
+        /*
+        if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10){
+            if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10) {
+                drawLine( Math.trunc(Xcurseur / 50)*50 , Math.trunc(Ycurseur / 50)*50, (Math.trunc(Xcurseur / 50))*50 +50, Math.trunc(Ycurseur / 50)*50, 'red') ;
+            }
+        }*/
+
+    // fonction qui permet de créer une ligne :
+    function creatLine(x,y,a,b, color ='#DCDCDC') {
         line = new Path2D();
         line.moveTo(x,y);
         line.lineTo(a, b);
@@ -62,7 +94,7 @@
 
 <body onload="init();">
 
-<canvas id="canvas" width="500" height="500" onmousemove="GetCoordinates(event);">
+<canvas id="canvas" width="500" height="500" onmousemove="hoverOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.
 </canvas>
 
