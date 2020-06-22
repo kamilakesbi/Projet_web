@@ -24,9 +24,10 @@
                 ctx.fillRect(i*50, j*50, 5, 5);
             }
         }
+        // Création des lignes du Canevas, que l'on stock dans une matrice path :
 
-        // Création des lignes du Canevas :
         path = [];
+
         for (var i =1 ; i<9; i++){
             for (var j=1; j<9; j++){
                 path.push(creatLine(i*50+5 , j*50 + 2.5, (i+1)*50, j*50 +2.5));
@@ -40,45 +41,119 @@
         for (var i =1 ; i <9; i ++){
             path.push(creatLine(i*50+ 5, 9*50 + 2.5, (i+1)*50, 9*50 + 2.5));
         }
+
+
     }
 
-    // Fonction qui permet de surligner une ligne lors du passage de la souris par dessus :
+    // Fonction qui permet de surligner une ligne lors du passage de la souris par dessus,
+    // Si elle n'a pas déjà été clické.
     function hoverOnLine(event){
         var XYrect = canvas.getBoundingClientRect();
         var Xcurseur = Math.round(event.clientX - XYrect.left);
         var Ycurseur = Math.round(event.clientY - XYrect.top);
 
         for (var p=0; p <path.length; p++) {
-            if (ctx.isPointInStroke(path[p], Xcurseur, Ycurseur)) {
-                ctx.strokeStyle = 'red';
-                ctx.fill();
-                ctx.stroke(path[p]);
-            } else {
-                ctx.strokeStyle = '#DCDCDC';
-                ctx.fill();
-                ctx.stroke(path[p]);
+            if (path[p].clicked == false) {
+                if (ctx.isPointInStroke(path[p].object, Xcurseur, Ycurseur)) {
+
+                    ctx.strokeStyle = 'red';
+                    ctx.fill();
+                    ctx.stroke(path[p].object);
+
+                } else {
+
+                    ctx.strokeStyle = '#DCDCDC';
+                    ctx.fill();
+                    ctx.stroke(path[p].object);
+                }
             }
         }
+
     }
 
+    // Fonction qui permet de surligner une ligne de façon permanente,
+    // Une fois que l'on a cliqué dessus.
+    function clickOnLine(event) {
+        var XYrect = canvas.getBoundingClientRect();
+        var Xcurseur = Math.round(event.clientX - XYrect.left);
+        var Ycurseur = Math.round(event.clientY - XYrect.top);
 
-
-        /*
-        if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10){
-            if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10) {
-                drawLine( Math.trunc(Xcurseur / 50)*50 , Math.trunc(Ycurseur / 50)*50, (Math.trunc(Xcurseur / 50))*50 +50, Math.trunc(Ycurseur / 50)*50, 'red') ;
+        for (var p=0; p <path.length; p++) {
+            if (ctx.isPointInStroke(path[p].object, Xcurseur, Ycurseur)) {
+                ctx.strokeStyle = 'green';
+                ctx.fill();
+                path[p].clicked = true;
+                ctx.stroke(path[p].object);
+                isSquare(Xcurseur, Ycurseur, false);
             }
-        }*/
+        }
 
-    // fonction qui permet de créer une ligne :
-    function creatLine(x,y,a,b, color ='#DCDCDC') {
+    }
+
+    // fonction qui permet de créer une ligne.
+    // Retourne un JSON avec :
+    //              - L'objet ligne
+    //              - Booléen pour savoir si l'on a cliqué sur l'objet ou non.
+    function creatLine(x,y,a,b, color ='#DCDCDC', clicked = false) {
         line = new Path2D();
         line.moveTo(x,y);
         line.lineTo(a, b);
         ctx.strokeStyle = color;
         ctx.lineWidth = 3;
         ctx.stroke(line);
-        return line;
+        return {
+            object : line,
+            clicked : clicked
+        };
+    }
+
+    function creatSquare(x, y, color){
+        square = new Path2D();
+        ctx.rect(x, y, 45, 45);
+        ctx.fillStyle = color;
+        ctx.stroke(square);
+        return square
+
+    }
+
+    function isSquare(x, y, color){
+        console.log(x/50,y/50);
+        console.log(Math.trunc(x/50), Math.trunc(y/50));
+        console.log(Math.ceil(x/50), Math.ceil(y/50));
+        for (var p=0; p <path.length; p++) {
+            if (path[p].clicked){
+                for (var i=0; i<9; i++){
+                    for (var j=0; j<9; j++) {
+                        //ligne horizontale collée à (i,j)
+                        if (ctx.isPointInStroke(path[p].object, i*50+25, j*50 + 2.5)){
+                            for (var k=0; k <path.length; k++) {
+                                if (path[k].clicked) {
+                                    // ligne verticale collée à (i,j)
+                                    if (ctx.isPointInStroke(path[k].object, i * 50 + 2.5, j * 50 + 25)) {
+                                        for (var l=0; l <path.length; l++) {
+                                            if (path[l].clicked) {
+                                                // ligne verticale collée à (i+1,j)
+                                                if (ctx.isPointInStroke(path[l].object, (i+1)*50 + 2.5, j * 50 + 25)) {
+                                                    for (var m=0; m <path.length; m++) {
+                                                        if (path[m].clicked) {
+                                                            // ligne horizontale collée à (i,j +1)
+                                                            if (ctx.isPointInStroke(path[m].object, i*50+25, (j+1)*50 + 2.5)) {
+                                                                creatSquare(i*50+5,j*50+5,'#7FFFD4');
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 
 
@@ -94,7 +169,7 @@
 
 <body onload="init();">
 
-<canvas id="canvas" width="500" height="500" onmousemove="hoverOnLine(event);">
+<canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.
 </canvas>
 
