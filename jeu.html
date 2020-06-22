@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+</head>
+
+<script src="jquery-3.4.1.min.js">
+    // rien ici !
+</script>
+
+<script>
+    var canvas;
+    var ctx;
+
+    function init(){
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+
+        for (var i=1 ; i<10 ; i++){
+            for (var j=1 ; j<10 ; j++) {
+                ctx.fillRect(i*50, j*50, 5, 5);
+            }
+        }
+
+        drawLine(55,52,100,52)
+    }
+
+    function GetCoordinates(event){
+        var XYrect = canvas.getBoundingClientRect();
+        var Xcurseur = Math.round(event.clientX - XYrect.left);
+        var Ycurseur = Math.round(event.clientY - XYrect.top);
+
+
+        if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10){
+            if(0<Math.trunc(Xcurseur/50) & Math.trunc(Xcurseur/50)<10) {
+                drawLine( Math.trunc(Xcurseur / 50)*50 , Math.trunc(Ycurseur / 50)*50, (Math.trunc(Xcurseur / 50))*50 +50, Math.trunc(Ycurseur / 50)*50, 'red') ;
+            }
+        }
+    }
+
+    function drawLine(x,y,a,b, color) {
+        line = new Path2D();
+        line.moveTo(x,y);
+        line.lineTo(a, b);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.stroke(line);
+        return line;
+    }
+
+
+
+</script>
+
+<style>
+
+    canvas {
+        border: 1px solid black ;
+    }
+</style>
+
+<body onload="init();">
+
+<canvas id="canvas" width="500" height="500" onmousemove="GetCoordinates(event);">
+    Texte alternatif pour les navigateurs ne supportant pas Canvas.
+</canvas>
+
+</body>
+</html>
