@@ -25,19 +25,21 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 
 <div id="banniere">
 
-<!--
-<a href="index.php?view=produits">Produits</a>
-<a href="index.php?view=synthese">Synthese</a>
--->
 
 <?php
 
     // Si l'utilisateur n'est pas connecte, on affiche un lien de connexion
-    if (!valider("connecte","SESSION"))
-	    echo "<a href=\"index.php?view=login\">Se connecter</a>";
+    if (!valider("connecte","SESSION")){
+        //supprimé par fberge : ce lien est inutile puisque la
+        //première chose à faire est de se connecter
+        //echo "<a href=\"index.php?view=login\">Se connecter</a>";
+    }
+
     else{
-        echo "<a href=\'index.php?view=produits\'>Salons</a>";
-        echo "<a href=\'index.php?view=produits\'>Profil</a>";
+        //une fois que l'on est connecté apparaissent les liens
+        echo "<a href=\'index.php?view=accueil\'>Accueil</a>";
+        echo "<a href=\'index.php?view=salons\'>Salons</a>";
+        echo "<a href=\'index.php?view=login\'>Profil</a>";
     }
 ?>
 

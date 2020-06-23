@@ -11,6 +11,14 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 // inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("libs/maLibSQL.pdo.php");
 
+function listerJoueurs(){
+	$SQL= "SELECT * FROM joueurs";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
+// Partie du prof
+
 function listerUtilisateurs($classe = "both")
 {
 	// Cette fonction liste les utilisateurs de la base de données 

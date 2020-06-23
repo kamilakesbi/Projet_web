@@ -16,7 +16,7 @@ if (! valider("connecte","SESSION")) {
 }
 
 
-echo "<h1> MOn profil : <b>$_SESSION[pseudo]</b> : <h1>"
+echo "<h1> Mon profil : <b>$_SESSION[pseudo]</b> : <h1>";
 echo "Nombre de parties gagnées : <b>$_JOUEURS[nbVictoires]</b> &nbsp; ";
 echo "Nombre de parties perdues : <b>$_SESSION[nbDefaites]</b> &nbsp; ";
 

@@ -1,29 +1,74 @@
-<?php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-// Si la page est appelée directement par son adresse, on redirige en passant pas la page index
-if (basename($_SERVER["PHP_SELF"]) != "index.php")
-{
-	header("Location:../index.php?view=login");
-	die("");
-}
-$info="";
-if($msg=valider("msg")){
-    $info="<h3 style=". "color:#ff0000" .">".$msg."</h3>";
-}
+<style>
+    .label {
+        display: inline;
+        margin-bottom: 30px;
+    }
+    #titrePage {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    #titre {
+        margin-bottom: 30px;
+    }
+    #connexion {
+        text-align: center;
+        border-style: solid;
+        padding-bottom: 10px;
+           }
+    .val {
+        height: 20px;
+    }
+    #btnConnexion {
+        margin-top: 10px;
+        margin-left: 60px;
+        width: 150px;
+        height: 40px;
+    }
+    #creerCompte {
+        margin-top: 30px;
+        text-align: center;
+        border-style: solid;
+        padding-bottom: 10px;
+    }
+    #btnCreerCompte {
+        width: 150px;
+        height: 40px;
+    }
+</style>
 
-?>
+<!-- **** H E A D **** -->
+<head>
+    <title> Connexion jeu des petits carrés </title>
+</head>
 
-<div id="corps">
+<!-- **** B O D Y **** -->
+<body>
+    <h1 id="titrePage">Le jeu des petits carrés</h1>
+    <form action="controleur.php" method="GET">
+        <div id="connexion">
+            <h3 id="titre">Se connecter </h3>
+            <p class="label">Identifiant</p>
+            <input type="text" name="login" class="val"></input> </br> <!--modifié par fberge : pas besoin d'un textarea, et rajout d'un name -->
+            <p class="label">Mot de passe</p>
+            <input type="password" name="passe" class="val"></input> <!--modifié par fberge : pas besoin d'un textarea, et rajout d'un name -->
+            <input id="btnConnexion" type="submit" name="action" value="Connexion"/> <!--un submit pour le form au lieu de juste un bouton -->
+            <?php
+            //si on recoit un message de la part du controleur, on l'affiche
+            if($msg=valider("msg")){
+                echo "<p style='color:red'>".$msg."</p>";
+            }
+            ?>
 
-<h1>Connexion</h1>
-<?=$info?>
-<div id="formLogin">
-<form action="controleur.php" method="GET">
-Login : <input type="text" name="login" /><br />
-Passe : <input type="password" name="passe" /><br />
-<input type="submit" name="action" value="Connexion" />
-</form>
-</div>
+        </div>
+        <div id="creerCompte">
+            <h3>Creer un compte</h3>
+            <input id="btnCreerCompte" type="submit" name="action" value="Creer un compte"/>
+        </div>
+
+    </form>
 
 
-</div>
+</body>

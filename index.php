@@ -22,7 +22,7 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 	$view = valider("view"); 
 
 	// S'il est vide, on charge la vue accueil par défaut
-	if (!$view) $view = "accueil"; 
+	if (!$view) $view = "login";
 
 	// En fonction de la vue à afficher, on appelle tel ou tel template
 	switch($view)
@@ -34,7 +34,11 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 
 		case "login" : 
 			include("vues/login.php");
-		break; 
+		break;
+
+		case "salons" :
+			include("vues/salons.php");
+		break;
 
 
 
