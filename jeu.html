@@ -12,9 +12,22 @@
 <script>
     var canvas;
     var ctx;
-    var path;
+    var path_lines;
+    var path_squares;
+    var salon;
+    var idLastPlayer = 1;
+    var refListJoueurs ;
 
     function init(){
+
+        //On obtient les joueurs et leurs informations :
+        salon = $.parseJSON($.ajax({
+                        type: "GET",
+                        url: 'data.php',
+                        async : false,
+                        dataType : "json"
+                    }).responseText);
+
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
 
@@ -24,23 +37,28 @@
                 ctx.fillRect(i*50, j*50, 5, 5);
             }
         }
-        // Création des lignes du Canevas, que l'on stock dans une matrice path :
 
-        path = [];
-
+        // Création des lignes du Canevas, que l'on stock dans une matrice path_lines :
+        path_lines = [];
         for (var i =1 ; i<9; i++){
             for (var j=1; j<9; j++){
-                path.push(creatLine(i*50+5 , j*50 + 2.5, (i+1)*50, j*50 +2.5));
-                path.push(creatLine(i*50 + 2.5, j*50 +5, i*50 +2.5, (j+1)*50));
+                path_lines.push(creatLine(i*50+5 , j*50 + 2.5, (i+1)*50, j*50 +2.5));
+                path_lines.push(creatLine(i*50 + 2.5, j*50 +5, i*50 +2.5, (j+1)*50));
             }
         }
         // Ajout de lignes sur les bords :
         for (var j =1 ; j<9; j++){
-            path.push(creatLine(9*50 +2.5, j*50+5, 9*50 +2.5, (j+1)*50));
+            path_lines.push(creatLine(9*50 +2.5, j*50+5, 9*50 +2.5, (j+1)*50));
         }
         for (var i =1 ; i <9; i ++){
-            path.push(creatLine(i*50+ 5, 9*50 + 2.5, (i+1)*50, 9*50 + 2.5));
+            path_lines.push(creatLine(i*50+ 5, 9*50 + 2.5, (i+1)*50, 9*50 + 2.5));
         }
+
+        // variable qui stock tous les carrés définis :
+        path_squares = [];
+
+        refListJoueurs = document.getElementById("listeJoueurs");
+
 
 
     }
@@ -52,19 +70,20 @@
         var Xcurseur = Math.round(event.clientX - XYrect.left);
         var Ycurseur = Math.round(event.clientY - XYrect.top);
 
-        for (var p=0; p <path.length; p++) {
-            if (path[p].clicked == false) {
-                if (ctx.isPointInStroke(path[p].object, Xcurseur, Ycurseur)) {
+
+        for (var p=0; p <path_lines.length; p++) {
+            if (path_lines[p].clicked == false) {
+                if (ctx.isPointInStroke(path_lines[p].object, Xcurseur, Ycurseur)) {
 
                     ctx.strokeStyle = 'red';
                     ctx.fill();
-                    ctx.stroke(path[p].object);
+                    ctx.stroke(path_lines[p].object);
 
                 } else {
 
                     ctx.strokeStyle = '#DCDCDC';
                     ctx.fill();
-                    ctx.stroke(path[p].object);
+                    ctx.stroke(path_lines[p].object);
                 }
             }
         }
@@ -78,13 +97,21 @@
         var Xcurseur = Math.round(event.clientX - XYrect.left);
         var Ycurseur = Math.round(event.clientY - XYrect.top);
 
-        for (var p=0; p <path.length; p++) {
-            if (ctx.isPointInStroke(path[p].object, Xcurseur, Ycurseur)) {
-                ctx.strokeStyle = 'green';
-                ctx.fill();
-                path[p].clicked = true;
-                ctx.stroke(path[p].object);
-                isSquare(Xcurseur, Ycurseur, false);
+
+        for (var p=0; p <path_lines.length; p++) {
+            if (ctx.isPointInStroke(path_lines[p].object, Xcurseur, Ycurseur)) {
+                if (path_lines[p].clicked == true){
+
+                } else {
+                    joueur = whosTurn();
+
+                    ctx.strokeStyle = joueur.color;
+                    ctx.fill();
+                    path_lines[p].clicked = true;
+                    ctx.stroke(path_lines[p].object);
+                    isSquare(Xcurseur, Ycurseur, joueur.color);
+                }
+
             }
         }
 
@@ -107,54 +134,95 @@
         };
     }
 
+    // fonction qui permet de créer un carré, dont l'extrémité haut/gauche se situe aux coordonnées x,y.
+    // possibilité de spécifier la couleur du carré.
     function creatSquare(x, y, color){
         square = new Path2D();
-        ctx.rect(x, y, 45, 45);
-        ctx.fillStyle = color;
+        square.strokeStyle = color;
+        //ctx.fillStyle = color ;
+        square.rect(x, y, 35, 35);
         ctx.stroke(square);
         return square
 
     }
 
-    function isSquare(x, y, color){
-        console.log(x/50,y/50);
-        console.log(Math.trunc(x/50), Math.trunc(y/50));
-        console.log(Math.ceil(x/50), Math.ceil(y/50));
-        for (var p=0; p <path.length; p++) {
-            if (path[p].clicked){
-                for (var i=0; i<9; i++){
-                    for (var j=0; j<9; j++) {
-                        //ligne horizontale collée à (i,j)
-                        if (ctx.isPointInStroke(path[p].object, i*50+25, j*50 + 2.5)){
-                            for (var k=0; k <path.length; k++) {
-                                if (path[k].clicked) {
-                                    // ligne verticale collée à (i,j)
-                                    if (ctx.isPointInStroke(path[k].object, i * 50 + 2.5, j * 50 + 25)) {
-                                        for (var l=0; l <path.length; l++) {
-                                            if (path[l].clicked) {
-                                                // ligne verticale collée à (i+1,j)
-                                                if (ctx.isPointInStroke(path[l].object, (i+1)*50 + 2.5, j * 50 + 25)) {
-                                                    for (var m=0; m <path.length; m++) {
-                                                        if (path[m].clicked) {
-                                                            // ligne horizontale collée à (i,j +1)
-                                                            if (ctx.isPointInStroke(path[m].object, i*50+25, (j+1)*50 + 2.5)) {
-                                                                creatSquare(i*50+5,j*50+5,'#7FFFD4');
+    // Fonction qui place et affiche les différents carrés de la partie :
+    function isSquare(x, y, color) {
+
+        for (var p = 0; p < path_lines.length; p++) {
+            if (path_lines[p].clicked) {
+                for (var i = 0; i < 9; i++) {
+                    for (var j = 0; j < 9; j++) {
+                        if (isSquareAlreadydefined(i,j) == false) {
+                            //ligne horizontale collée à (i,j)
+                            if (ctx.isPointInStroke(path_lines[p].object, i * 50 + 25, j * 50 + 2.5)) {
+                                for (var k = 0; k < path_lines.length; k++) {
+                                    if (path_lines[k].clicked) {
+                                        // ligne verticale collée à (i,j)
+                                        if (ctx.isPointInStroke(path_lines[k].object, i * 50 + 2.5, j * 50 + 25)) {
+                                            for (var l = 0; l < path_lines.length; l++) {
+                                                if (path_lines[l].clicked) {
+                                                    // ligne verticale collée à (i+1,j)
+                                                    if (ctx.isPointInStroke(path_lines[l].object, (i + 1) * 50 + 2.5, j * 50 + 25)) {
+                                                        for (var m = 0; m < path_lines.length; m++) {
+                                                            if (path_lines[m].clicked) {
+                                                                // ligne horizontale collée à (i,j +1)
+                                                                if (ctx.isPointInStroke(path_lines[m].object, i * 50 + 25, (j + 1) * 50 + 2.5)) {
+                                                                    path_squares.push(creatSquare(i * 50 + 10, j * 50 + 10, color));
+                                                                    idLastPlayer -=1;
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
-                                        }                                    }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+
                 }
+
             }
 
         }
-
     }
+
+
+    // Retourne un json contenant le joueur dont c'est le tour de jouer
+    // incrémente idLasplayer
+    function whosTurn(){
+        idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
+        //console.log(idLastPlayer);
+        for (j in salon.joueurs){
+            if (salon["joueurs"][j].id == idLastPlayer){
+                idLastPlayer++;
+                return salon["joueurs"][j];
+            }
+        }
+    }
+
+    // détermine si un carré est déjà défini ou non,
+    // de sorte à ce qu'on ne modifie pas sa couleur à chaque click dans isSquare
+    function isSquareAlreadydefined(i, j) {
+        for (var o=0; o < path_squares.length; o++ ){
+            if (ctx.isPointInStroke(path_squares[o],i * 50 + 11, j * 50 + 11)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function writePlayers(){
+        refListJoueurs.innerHTML = null;
+        for (joueur in salon.joueurs){
+        }
+    }
+
+
+
 
 
 
@@ -162,16 +230,33 @@
 
 <style>
 
+    #listeJoueurs {
+        border : 3px solid black ;
+        float : left ;
+        display : inline;
+    }
+
     canvas {
         border: 1px solid black ;
+        display: inline;
+        float : left;
     }
 </style>
 
 <body onload="init();">
 
+<h1> Nom du Salon </h1>
+
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.
 </canvas>
+
+<div id="listeJoueurs">
+    <h1> Liste des Joueurs du Salon : </h1>
+    <l> Joueur 1</l>
+    <br/>
+    <l> Joueur 2 </l>
+</div>
 
 </body>
 </html>
