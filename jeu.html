@@ -15,7 +15,7 @@
     var path_lines;
     var path_squares;
     var salon;
-    var idLastPlayer = 1;
+    var idLastPlayer = 0;
     var refListJoueurs ;
 
     function init(){
@@ -58,6 +58,7 @@
         path_squares = [];
 
         refListJoueurs = document.getElementById("listeJoueurs");
+        writePlayers();
 
 
 
@@ -104,12 +105,13 @@
 
                 } else {
                     joueur = whosTurn();
-
+                    //writePlayers();
+                    console.log(joueur.color);
                     ctx.strokeStyle = joueur.color;
                     ctx.fill();
                     path_lines[p].clicked = true;
                     ctx.stroke(path_lines[p].object);
-                    isSquare(Xcurseur, Ycurseur, joueur.color);
+                    isSquare(Xcurseur, Ycurseur,joueur.color);
                 }
 
             }
@@ -121,7 +123,7 @@
     // Retourne un JSON avec :
     //              - L'objet ligne
     //              - Booléen pour savoir si l'on a cliqué sur l'objet ou non.
-    function creatLine(x,y,a,b, color ='#DCDCDC', clicked = false) {
+    function creatLine(x,y,a,b, color ='#dcdcdc', clicked = false) {
         line = new Path2D();
         line.moveTo(x,y);
         line.lineTo(a, b);
@@ -190,15 +192,14 @@
         }
     }
 
-
     // Retourne un json contenant le joueur dont c'est le tour de jouer
     // incrémente idLasplayer
     function whosTurn(){
-        idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
         //console.log(idLastPlayer);
         for (j in salon.joueurs){
             if (salon["joueurs"][j].id == idLastPlayer){
                 idLastPlayer++;
+                idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
                 return salon["joueurs"][j];
             }
         }
@@ -216,24 +217,32 @@
     }
 
     function writePlayers(){
-        refListJoueurs.innerHTML = null;
-        for (joueur in salon.joueurs){
+
+        refListJoueurs.innerHTML = "<h1>Liste des joueurs </h1>";
+        for (j in salon.joueurs){
+            if (salon.joueurs[j]["id"] == idLastPlayer){
+                couleur = salon.joueurs[j].color;
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + "; font-weight: bolder;'>"+ j +"</li>";
+                refListJoueurs.innerHTML += "<br/>";
+            } else {
+                couleur = salon.joueurs[j].color;
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + ";'>"+ j +"</li>";
+                refListJoueurs.innerHTML += "<br/>";
+            }
+
         }
     }
-
-
-
-
 
 
 </script>
 
 <style>
 
+
     #listeJoueurs {
         border : 3px solid black ;
         float : left ;
-        display : inline;
+        display : inline
     }
 
     canvas {
@@ -253,9 +262,7 @@
 
 <div id="listeJoueurs">
     <h1> Liste des Joueurs du Salon : </h1>
-    <l> Joueur 1</l>
-    <br/>
-    <l> Joueur 2 </l>
+
 </div>
 
 </body>
