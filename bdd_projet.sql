@@ -77,6 +77,7 @@ CREATE TABLE `joueurs` (
   `nbVictoires` int(11) COMMENT 'indique le nombre de victoires du joueur',
   `nbDefaites` int(11) COMMENT 'indique le nombre de défaites du joueur',
   `connecte` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'indique si le joueur est connecte'
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
