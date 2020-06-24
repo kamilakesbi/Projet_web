@@ -25,11 +25,11 @@ function verifUser($login,$password)
 	$id=verifUserBdd($login,$password);
 	if($id){
 		$_SESSION["pseudo"]=$login;
-		$_SESSION["idUser"]=$id;
+		$_SESSION["idJoueur"]=$id;
 		$_SESSION["heureConnexion"]=date("H:i:s");
-		$_SESSION["isAdmin"]=isAdmin($id);
+		//$_SESSION["isAdmin"]=isAdmin($id);
 		$_SESSION["connecte"]=true;
-		return true;
+		return $id;
 	}
 	else{
 		return false;

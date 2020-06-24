@@ -41,9 +41,10 @@ session_start();
 				{
 					// On verifie l'utilisateur, et on crée des variables de session si tout est OK
 					// Cf. maLibSecurisation
-					if(verifUser($login,$passe)){
-						//user conncecté
-						$qs="?view=accueil";
+					if($id=verifUser($login,$passe)){
+						//joueur conncecté
+						connexionBdd($id);//on dit a la bdd que le joueur est connecte
+						$qs="?view=accueil&msg=".urlencode("Bienvenue ")."$login";
 					}
 					else{
 						$qs="?view=login&msg=".urlencode("Identifiants incorrects !");
@@ -51,6 +52,16 @@ session_start();
 				}
 
 				// On redirigera vers la page index automatiquement
+			break;
+
+			case 'Creation salon' :
+				if($nomSalon=valider("nomSalon"))
+				if($nbJoueurs=valider("nbJoueurs")){
+					creerSalon($nomSalon, $nbJoueurs);
+				}
+				//$qs="?view=salons"; il faudra mettre cette ligne quand
+									//la vue salons sera dispo
+				$qs="?view=accueil";
 			break;
 
 			case 'Interdire' :
@@ -68,7 +79,9 @@ session_start();
 			break;
 
 			case 'Logout':
+				$id=$_SESSION["idJoueur"];
 				session_destroy();
+				deconnexionBdd($id);
 				$qs="?view=login&msg=".urlencode("A bientôt, au revoir !");
 			break;
 

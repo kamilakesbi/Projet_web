@@ -67,12 +67,37 @@ function verifUserBdd($login,$passe)
 	// renvoie faux si user inconnu
 	// renvoie l'id de l'utilisateur si succès
 
-	$SQL = "SELECT id FROM users WHERE pseudo='$login' AND passe='$passe'";
+	$SQL = "SELECT idJoueur FROM joueurs WHERE pseudo='$login' AND passe='$passe'";
 	return SQLGetChamp($SQL);
 	
 	// On utilise SQLGetCHamp
 	// si on avait besoin de plus d'un champ
 	// on aurait du utiliser SQLSelect
+}
+//rajouté par fberge : on modifie la colonne "connecte" de la table joueurs
+function connexionBdd($id){
+	$SQL ="UPDATE joueurs SET connecte=1 WHERE idJoueur=$id";
+	return SQLUpdate($SQL);
+}
+
+function deconnexionBdd($id){
+	$SQL ="UPDATE joueurs SET connecte=0 WHERE idJoueur=$id";
+	return SQLUpdate($SQL);
+}
+
+function listerJoueursConnectes(){
+	$SQL = "select * from joueurs where connecte=1";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function listerSalonsDisponibles(){
+	$SQL = "select * from salons where started=0";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function creerSalon($nomSalon, $nbJoueurs){
+	$SQL = "INSERT INTO salons(`nomSalon`, `nbJoueurs`) VALUES('$nomSalon', '$nbJoueurs')";
+	return SQLInsert($SQL);
 }
 
 function isAdmin($idUser)

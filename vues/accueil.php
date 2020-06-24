@@ -13,7 +13,8 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
     header("Location:../index.php?view=accueil");
     die("");
 }
-
+include_once("libs/modele.php");
+include_once("libs/maLibUtils.php"); // tprint
 
 ?>
 
@@ -86,48 +87,61 @@ if (basename($_SERVER["PHP_SELF"]) != "index.php")
     </div>
     -->
    <h1 id="titrePage">Accueil</h1>
+<?php
+    if(valider("connecte", "SESSION")){
+        if($msg=valider("msg")){
+            echo "<h2>".$msg."</h2>";
+        }
+    }
+?>
 
    <div id="autresJoueurs" class="cadre">
        <h3 id="titre">Liste des autres joueurs connectes</h3>
        <!-- Devra être mise à jour avec la liste des joueurs connectés -->
-       <li> Joueur 1</li>
-       <li> Joueur 2</li>
-       <li>A rendre dynamique</li>
+       <?php
+       //Permet d'afficher la liste des utilisateurs connectés
+            $joueursConnectes=listerJoueursConnectes();
+            //tprint($joueursConnectes);
+            foreach ($joueursConnectes as $joueur){
+                if($joueur["idJoueur"]!=$_SESSION["idJoueur"]){
+                    echo "<li>";
+                    echo $joueur["pseudo"];
+                    echo "</li>\n";
+                }
+            }
+       ?>
    </div>
 
 <div id="creerSalons" class="cadre">
     <h3 id="titre">Creer un salon</h3>
-    <p class="P2">Nom du salon : </p>
-    <textarea id="nomSalon" value="Choisir un nom de salon"></textarea> </br>
-    <p class="P2">Nombre de joueurs : </p>
-    <select id="nbJoueurs">
-        <option value="2"> 2 joueurs </option>
-        <option value="3"> 3 joueurs </option>
-        <option value="4"> 4 joueurs </option>
-    </select> </br>
-    <input id="creerSalon" type="button" value="Creer un nouveau salon"/>
+    <form action="controleur.php">
+        <p class="P2">Nom du salon : </p>
+        <input type="text" id="nomSalon" name="nomSalon" placeholder="Choisir un nom de salon"/></br>
+        <p class="P2">Nombre de joueurs : </p>
+        <select name="nbJoueurs" id="nbJoueurs">
+            <option value="2"> 2 joueurs </option>
+            <option value="3"> 3 joueurs </option>
+            <option value="4"> 4 joueurs </option>
+        </select> </br>
+        <input id="creerSalon" type="submit" name="action" value="Creation salon"/>
+    </form>
+
 
 </div>
 
 <div id="salonsDisponibles" class="cadre">
+
     <h3 id="titre">Liste des salons disponibles</h3>
     <!-- Devra être mise à jour avec la liste des salons disponibles -->
-    <li>
-        <p class="P3">Salon 1</p>
-        <input id="rejoindreSalon" type="button" value="Rejoindre"/>
-    </li>
-    <li>
-        <p class="P3">Salon 2</p>
-        <input id="rejoindreSalon" type="button" value="Rejoindre"/>
-    </li>
-    <li>
-        <p class="P3">Salon 3</p>
-        <input id="rejoindreSalon" type="button" value="Rejoindre"/>
-    </li>
-    <li>
-        <p class="P3">A rendre dynamique aussi</p>
-        <input id="rejoindreSalon" type="button" value="Rejoindre"/>
-    </li>
+    <?php
+    $salonsDisponibles=listerSalonsDisponibles();
+    foreach ($salonsDisponibles as $salon){
+        echo "<li>";
+        echo "<p class=\"P3\">".$salon["nomSalon"]."</p>";
+        echo "<input id=\"rejoindreSalon\" type=\"button\" value=\"Rejoindre\"/>";
+        echo "</li>\n";
+    }
+    ?>
 </div>
 
 </body>

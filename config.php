@@ -2,6 +2,6 @@
 
 $BDD_host="localhost";
 $BDD_user="root";
-$BDD_password=""; // vide sous windows
-$BDD_base="jdc"; // nom de la base de données
+$BDD_password="root"; // vide sous windows
+$BDD_base="projet_web"; // nom de la base de données
 ?>
