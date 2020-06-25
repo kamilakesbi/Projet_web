@@ -66,7 +66,7 @@
             <input type="text" name="login" class="val"></input> </br> <!--modifié par fberge : pas besoin d'un textarea, et rajout d'un name -->
             <p class="label">Mot de passe</p>
             <input type="password" name="passe" class="val"></input> <!--modifié par fberge : pas besoin d'un textarea, et rajout d'un name -->
-            <input id="btnConnexion" type="submit" name="action" value="Connexion"/> <!--un submit pour le form au lieu de juste un bouton -->
+	<p><input id="btnConnexion" type="submit" name="action" value="Connexion"/></p> <!--un submit pour le form au lieu de juste un bouton -->
             <?php
             //si on recoit un message de la part du controleur, on l'affiche
             if($msg=valider("msg")){
