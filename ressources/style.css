@@ -2,9 +2,15 @@
 	height:70px;
 }
 
-#stitre
-{
-	text-align:center;
+
+.image {
+	float: left;
+	min-width: 150px;
+	min-height: 150px;
+	}
+
+#stitre {
+	text-align: center;
 }
 
 #logo {
@@ -48,30 +54,6 @@
 	padding:20px;
 	margin:10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
