@@ -26,9 +26,7 @@
 		color: #5A3714;
 	}
     
-    body {
-	    background: linear-gradient(#FFF5EE, #FFF0F5);
-    
+	
     .val {
         height: 20px;
         margin-top: 5px;
