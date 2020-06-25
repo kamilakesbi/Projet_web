@@ -40,7 +40,9 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("vues/salons.php");
 		break;
 
-
+		case "profil" :
+			include("vues/profil.php");
+		break;
 
 		default : // si le template correspondant à l'argument existe, on l'affiche
 			if (file_exists("vues/$view.php"))

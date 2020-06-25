@@ -37,8 +37,8 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 
     else{
         //une fois que l'on est connecté apparaissent les liens
-        echo "<a href=\"index.php?vues/view=accueil\">Accueil</a>";
-        echo "<a href=\"index.php?vues/view=login\">Profil</a>";
+        echo "<a href=\"index.php?view=accueil\">Accueil</a>";
+        echo "<a href=\"index.php?view=profil\">Profil</a>";
     }
 ?>
 

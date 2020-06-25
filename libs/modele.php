@@ -5,11 +5,39 @@ Dans ce fichier, on définit diverses fonctions permettant de récupérer des do
 */
 
 
+
 /********* EXERCICE 2 : prise en main de la base de données *********/
 
 
 // inclure ici la librairie faciliant les requêtes SQL (en veillant à interdire les inclusions multiples)
 include_once("libs/maLibSQL.pdo.php");
+
+function getPseudo($idJoueur) {
+	$sql = "SELECT pseudo FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
+function getColor($idJoueur) {
+	$sql = "SELECT color FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
+function getNbVictoires($idJoueur) {
+	$sql = "SELECT nbVictoires FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
+function getNbDefaites($idJoueur) {
+	$sql = "SELECT nbDefaites FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
+function getRatio($idJoueur) {
+	$vic = SQLGetChamp("SELECT nbVictoires FROM joueurs WHERE idJoueur='$idJoueur'");
+	$def = SQLGetChamp("SELECT nbDefaites FROM joueurs WHERE idJoueur='$idJoueur'");
+	$ratio = $vic/($def+$vic);
+	return $ratio;
+}
 
 function listerJoueurs(){
 	$SQL= "SELECT * FROM joueurs";
