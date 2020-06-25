@@ -76,6 +76,7 @@ CREATE TABLE `joueurs` (
   `color` varchar(10) CHARACTER SET latin1 NOT NULL DEFAULT 'black' COMMENT 'indique la couleur préférée de l''utilisateur, en anglais',
   `nbVictoires` int(11) COMMENT 'indique le nombre de victoires du joueur',
   `nbDefaites` int(11) COMMENT 'indique le nombre de défaites du joueur',
+  `nbCarres`  int(11) COMMENT 'indique le nombre de carrés que possède le joueur dans la partie en cours',
   `connecte` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'indique si le joueur est connecte'
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

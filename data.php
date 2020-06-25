@@ -1,9 +1,16 @@
 <?php
 
+include_once("libs/maLibUtils.php");
+include_once("libs/modele.php");
 
-$joueur1 = array("id"=>0, "color"=>"ForestGreen");
-$joueur2 = array("id"=>1, "color" =>"Aqua");
-$joueur3 = array("id"=>2, "color" =>"DarkOrange");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Headers: *");
+
+
+$joueur1 = array("idJoueur"=>0, "color"=>"ForestGreen", "nbCarres" =>0);
+$joueur2 = array("idJoueur"=>1, "color" =>"Aqua","nbCarres"=>0);
+$joueur3 = array("idJoueur"=>2, "color" =>"DarkOrange", "nbCarres"=>0);
 
 
 $joueurs = array("joueur1"=>$joueur1, "joueur2"=>$joueur2, "joueur3"=>$joueur3);

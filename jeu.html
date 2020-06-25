@@ -59,8 +59,6 @@
         refListJoueurs = document.getElementById("listeJoueurs");
         writePlayers();
 
-
-
     }
 
     // Fonction qui permet de surligner une ligne lors du passage de la souris par dessus,
@@ -98,19 +96,22 @@
         var Ycurseur = Math.round(event.clientY - XYrect.top);
 
 
+        // Mettre du PHP pour savoir si c'est au tour de la personne connectée de jouer
+
         for (var p=0; p <path_lines.length; p++) {
             if (ctx.isPointInStroke(path_lines[p].object, Xcurseur, Ycurseur)) {
                 if (path_lines[p].clicked == true){
 
                 } else {
                     joueur = whosTurn();
-                    //writePlayers();
-                    console.log(joueur.color);
+
                     ctx.strokeStyle = joueur.color;
                     ctx.fill();
                     path_lines[p].clicked = true;
                     ctx.stroke(path_lines[p].object);
-                    isSquare(Xcurseur, Ycurseur,joueur.color);
+                    isSquare(Xcurseur, Ycurseur, joueur.color);
+                    writePlayers();
+                    // Ajax pour mettre en base le canevas actuel
                 }
 
             }
@@ -169,8 +170,13 @@
                                                             if (path_lines[m].clicked) {
                                                                 // ligne horizontale collée à (i,j +1)
                                                                 if (ctx.isPointInStroke(path_lines[m].object, i * 50 + 25, (j + 1) * 50 + 2.5)) {
+
                                                                     path_squares.push(creatSquare(i * 50 + 10, j * 50 + 10, color));
+
+
                                                                     idLastPlayer -=1;
+                                                                    idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
+                                                                    //Mettre de l'ajax ici pour update nbCarres
                                                                 }
                                                             }
                                                         }
@@ -192,11 +198,11 @@
     }
 
     // Retourne un json contenant le joueur dont c'est le tour de jouer
-    // incrémente idLasplayer
+    // incrémente idLastplayer
     function whosTurn(){
         //console.log(idLastPlayer);
         for (j in salon.joueurs){
-            if (salon["joueurs"][j].id == idLastPlayer){
+            if (salon["joueurs"][j].idJoueur == idLastPlayer){
                 idLastPlayer++;
                 idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
                 return salon["joueurs"][j];
@@ -215,20 +221,45 @@
         return false;
     }
 
+    // Place les pseudos des joueurs dans un div sous forme de liste
+    // pseudo en couleurs
+    // celui dont c'est le tour de jouer est en gras.
     function writePlayers(){
 
         refListJoueurs.innerHTML = "<h1>Liste des joueurs </h1>";
         for (j in salon.joueurs){
-            if (salon.joueurs[j]["id"] == idLastPlayer){
+            if (salon.joueurs[j]["idJoueur"] == idLastPlayer){
+                nbCarres = salon.joueurs[j].nbCarres;
                 couleur = salon.joueurs[j].color;
-                refListJoueurs.innerHTML += "<li style='color:" +couleur + "; font-weight: bolder;'>"+ j +"</li>";
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + "; font-weight: bolder;'>"+ j + " : " +nbCarres.toString() +"</li>";
                 refListJoueurs.innerHTML += "<br/>";
             } else {
+                nbCarres = salon.joueurs[j].nbCarres;
                 couleur = salon.joueurs[j].color;
-                refListJoueurs.innerHTML += "<li style='color:" +couleur + ";'>"+ j +"</li>";
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + ";'>"+ j +  " : " +nbCarres.toString() +"</li>";
                 refListJoueurs.innerHTML += "<br/>";
             }
 
+        }
+    }
+
+    function incrementNbCarres(joueur){
+        var n = joueur.nbCarres;
+        n++;
+        $.ajax({
+            type: "PUT",
+            url: 'data.php' + "/joueurs/" + joueur.idJoueur + "?nbCarres=" + n,
+            success: function(oRep){
+                console.log(oRep);
+            },
+            dataType: "json"
+        });
+    }
+
+    function endPartie(){
+        for (var i = 0; i < 9; i++) {
+            for (var j = 0; j < 9; j++) {
+            }
         }
     }
 
