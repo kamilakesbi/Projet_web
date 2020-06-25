@@ -31,7 +31,7 @@ CREATE TABLE `salons` (
   `started` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'indique si la partie a commencé',
   `nomSalon` varchar(40) CHARACTER SET latin1 NOT NULL COMMENT 'Nom du salon',
   `nbJoueurs` int(11) NOT NULL COMMENT 'Indique le nombre de joueurs présent dans le salon',
-  `idJoueurs` varchar(40) CHARACTER SET latin1  COMMENT 'indique les identifiants des joueurs dans le salon',
+  `idJoueurs` varchar (40)  COMMENT 'indique les identifiants des joueurs dans le salon',
   `vainqueur` varchar(10) CHARACTER SET latin1 NOT NULL DEFAULT 'non defini'COMMENT 'indique pseudo du joueur qui a gagné'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -40,8 +40,8 @@ CREATE TABLE `salons` (
 --
 
 INSERT INTO `salons` (`idSalon`, `started`, `nomSalon`, `nbJoueurs`, `idJoueurs`) VALUES
-(0, 0, 'Salon1', 3 , '{0}'),
-(1, 0, 'Salon2', 2 , '{1}');
+(0, 0, 'Salon1', 3 , '{"joueurs":[0,1,2]}'),
+(1, 0, 'Salon2', 2 , '{"joueurs":[0,1,2]}');
 
 -- --------------------------------------------------------
 
