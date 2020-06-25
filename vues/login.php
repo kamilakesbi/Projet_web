@@ -36,6 +36,7 @@
         margin-left: 60px;
         width: 150px;
         height: 40px;
+	display: inline;
     }
     #creerCompte {
         margin-top: 30px;
