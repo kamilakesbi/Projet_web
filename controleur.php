@@ -59,9 +59,14 @@ session_start();
 				if($nbJoueurs=valider("nbJoueurs")){
 					creerSalon($nomSalon, $nbJoueurs);
 				}
-				//$qs="?view=salons"; il faudra mettre cette ligne quand
-									//la vue salons sera dispo
-				$qs="?view=accueil";
+				$qs="?view=jeu"; //il faudra mettre cette ligne quand
+									//la vue jeu sera dispo
+				//$qs="?view=accueil";
+			break;
+
+			//Lorsque l'on rejoint un salon, on est dirigé sur la page de jeu
+			case 'Rejoindre' :
+				$qs="?view=jeu";
 			break;
 
 			case 'Interdire' :

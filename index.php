@@ -36,8 +36,8 @@ Les formulaires de toutes les vues générées enverront leurs données vers la 
 			include("vues/login.php");
 		break;
 
-		case "salons" :
-			include("vues/salons.php");
+		case "jeu" :
+			include("vues/jeu.php");
 		break;
 
 		case "profil" :

@@ -35,6 +35,9 @@ function getNbDefaites($idJoueur) {
 function getRatio($idJoueur) {
 	$vic = SQLGetChamp("SELECT nbVictoires FROM joueurs WHERE idJoueur='$idJoueur'");
 	$def = SQLGetChamp("SELECT nbDefaites FROM joueurs WHERE idJoueur='$idJoueur'");
+	if($vic==0 && $def==0){
+		return 0;
+	}
 	$ratio = $vic/($def+$vic);
 	return $ratio;
 }
@@ -43,7 +46,31 @@ function listerJoueurs(){
 	$SQL= "SELECT * FROM joueurs";
 	return parcoursRs(SQLSelect($SQL));
 }
+//rajouté par fberge : on modifie la colonne "connecte" de la table joueurs
+function connexionBdd($id){
+	$SQL ="UPDATE joueurs SET connecte=1 WHERE idJoueur=$id";
+	return SQLUpdate($SQL);
+}
 
+function deconnexionBdd($id){
+	$SQL ="UPDATE joueurs SET connecte=0 WHERE idJoueur=$id";
+	return SQLUpdate($SQL);
+}
+
+function listerJoueursConnectes(){
+	$SQL = "select * from joueurs where connecte=1";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function listerSalonsDisponibles(){
+	$SQL = "select * from salons where started=0";
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function creerSalon($nomSalon, $nbJoueurs){
+	$SQL = "INSERT INTO salons(`nomSalon`, `nbJoueurs`) VALUES('$nomSalon', '$nbJoueurs')";
+	return SQLInsert($SQL);
+}
 
 // Partie du prof
 
@@ -102,31 +129,7 @@ function verifUserBdd($login,$passe)
 	// si on avait besoin de plus d'un champ
 	// on aurait du utiliser SQLSelect
 }
-//rajouté par fberge : on modifie la colonne "connecte" de la table joueurs
-function connexionBdd($id){
-	$SQL ="UPDATE joueurs SET connecte=1 WHERE idJoueur=$id";
-	return SQLUpdate($SQL);
-}
 
-function deconnexionBdd($id){
-	$SQL ="UPDATE joueurs SET connecte=0 WHERE idJoueur=$id";
-	return SQLUpdate($SQL);
-}
-
-function listerJoueursConnectes(){
-	$SQL = "select * from joueurs where connecte=1";
-	return parcoursRs(SQLSelect($SQL));
-}
-
-function listerSalonsDisponibles(){
-	$SQL = "select * from salons where started=0";
-	return parcoursRs(SQLSelect($SQL));
-}
-
-function creerSalon($nomSalon, $nbJoueurs){
-	$SQL = "INSERT INTO salons(`nomSalon`, `nbJoueurs`) VALUES('$nomSalon', '$nbJoueurs')";
-	return SQLInsert($SQL);
-}
 
 function isAdmin($idUser)
 {

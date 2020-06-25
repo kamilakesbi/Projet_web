@@ -17,7 +17,10 @@ include_once("libs/modele.php");
 include_once("libs/maLibUtils.php"); // tprint
 
 ?>
+<script>
 
+
+</script>
 <style>
     #entete {
         padding:10px;
@@ -67,6 +70,10 @@ include_once("libs/maLibUtils.php"); // tprint
         display:inline;
         margin-right:40px;
     }
+
+    .formulaireSalon{
+        display: inline;
+    }
 </style>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -87,13 +94,13 @@ include_once("libs/maLibUtils.php"); // tprint
     </div>
     -->
    <h1 id="titrePage">Accueil</h1>
-<?php
-    if(valider("connecte", "SESSION")){
-        if($msg=valider("msg")){
-            echo "<h2>".$msg."</h2>";
+    <?php
+        if(valider("connecte", "SESSION")){
+            if($msg=valider("msg")){
+                echo "<h2>".$msg."</h2>";
+            }
         }
-    }
-?>
+    ?>
 
    <div id="autresJoueurs" class="cadre">
        <h3 id="titre">Liste des autres joueurs connectes</h3>
@@ -133,15 +140,21 @@ include_once("libs/maLibUtils.php"); // tprint
 
     <h3 id="titre">Liste des salons disponibles</h3>
     <!-- Devra être mise à jour avec la liste des salons disponibles -->
+
     <?php
+    //on crée un formulaire pour chaque bouton rejoindre (pour pouvoir envoyer
+    //au controleur l'id du salon sans avoir a le mettre dans un input)
     $salonsDisponibles=listerSalonsDisponibles();
     foreach ($salonsDisponibles as $salon){
         echo "<li>";
         echo "<p class=\"P3\">".$salon["nomSalon"]."</p>";
-        echo "<input id=\"rejoindreSalon\" type=\"button\" value=\"Rejoindre\"/>";
+        echo "<form class='formulaireSalon' action='controleur.php?idSalon='".$salon["idSalon"].">";
+        echo "<input id=\"rejoindreSalon\" type=\"submit\" name='action' value=\"Rejoindre\"/>";
+        echo "</form>";
         echo "</li>\n";
     }
     ?>
+
 </div>
 
 </body>

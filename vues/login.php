@@ -46,7 +46,7 @@
 
 <!-- **** B O D Y **** -->
 <body>
-    <h1 id="titrePage">Le jeu des petits carrés</h1>
+    <!--<h1 id="titrePage">Le jeu des petits carrés</h1> -->
     <form action="controleur.php" method="GET">
         <div id="connexion">
             <h3 id="titre">Se connecter </h3>

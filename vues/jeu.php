@@ -1,3 +1,6 @@
+<?php
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,11 +24,11 @@
 
         //On obtient les joueurs et leurs informations :
         salon = $.parseJSON($.ajax({
-                        type: "GET",
-                        url: 'data.php',
-                        async : false,
-                        dataType : "json"
-                    }).responseText);
+            type: "GET",
+            url: 'data.php',
+            async : false,
+            dataType : "json"
+        }).responseText);
 
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
