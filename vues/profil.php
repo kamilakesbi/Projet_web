@@ -124,7 +124,7 @@ include_once("libs/maLibUtils.php"); // tprint
 
     <h4 id="label">Ratio :</h4>
     <?php
-    $ratio=getRatio($_SESSION["idJoueur"]);
+    $ratio=($NbVictoires)/($NbVictoires+$NbDefaites);
     echo "<p>";
     echo $ratio;
     echo "</p>\n";
