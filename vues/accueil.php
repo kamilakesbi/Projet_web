@@ -40,12 +40,14 @@ include_once("libs/maLibUtils.php"); // tprint
         border-width:2px;
          */
         margin: 10px;
+  		background: linear-gradient(#F0FFF0, lightgrey);
     }
     #titrePage {
         text-align: center;
     }
     #titre {
         margin:10px;
+		background: linear-gradient(#FDC777, #FA8519);
     }
     li {
         margin-left:20px;
