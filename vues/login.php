@@ -12,14 +12,26 @@
     }
     #titre {
         margin-bottom: 30px;
+        background: linear-gradient(#FDC777, #FA8519);       
     }
     #connexion {
         text-align: center;
         border-style: solid;
         padding-bottom: 10px;
+        background: linear-gradient(#F0FFF0, lightgrey);
+        margin-top: 100px;
            }
+    
+    h3 {
+		color: #5A3714;
+	}
+    
+    body {
+	    background: linear-gradient(#FFF5EE, #FFF0F5);
+    
     .val {
         height: 20px;
+        margin-top: 5px;
     }
     #btnConnexion {
         margin-top: 10px;
@@ -32,6 +44,7 @@
         text-align: center;
         border-style: solid;
         padding-bottom: 10px;
+       	background: linear-gradient(#F0FFF0, #E2FCFB);
     }
     #btnCreerCompte {
         width: 150px;
@@ -64,8 +77,8 @@
 
         </div>
         <div id="creerCompte">
-            <h3>Creer un compte</h3>
-            <input id="btnCreerCompte" type="submit" name="action" value="Creer un compte"/>
+            <h3>Créer un compte</h3>
+            <input id="btnCreerCompte" type="submit" name="action" value="Créer un compte"/>
         </div>
 
     </form>
