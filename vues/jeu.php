@@ -1,4 +1,7 @@
 <?php
+
+// Si la page est appelée directement par son adresse, on redirige en passant pas la page index
+
 ?>
 
 <!DOCTYPE html>
@@ -19,16 +22,21 @@
     var salon;
     var idLastPlayer = 0;
     var refListJoueurs ;
+    var refTitre;
+    var nbCarres = [0,0,0];
 
     function init(){
 
         //On obtient les joueurs et leurs informations :
         salon = $.parseJSON($.ajax({
             type: "GET",
-            url: 'data.php',
+            url: './data.php',
             async : false,
             dataType : "json"
         }).responseText);
+
+        refTitre = document.getElementById("titre");
+        refTitre.innerHTML = salon["nomSalon"];
 
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
@@ -39,6 +47,8 @@
                 ctx.fillRect(i*50, j*50, 5, 5);
             }
         }
+
+
 
         // Création des lignes du Canevas, que l'on stock dans une matrice path_lines :
         path_lines = [];
@@ -176,10 +186,12 @@
 
                                                                     path_squares.push(creatSquare(i * 50 + 10, j * 50 + 10, color));
 
-
                                                                     idLastPlayer -=1;
                                                                     idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
                                                                     //Mettre de l'ajax ici pour update nbCarres
+
+                                                                    nbCarres[idLastPlayer]+=1;
+
                                                                 }
                                                             }
                                                         }
@@ -232,14 +244,16 @@
         refListJoueurs.innerHTML = "<h1>Liste des joueurs </h1>";
         for (j in salon.joueurs){
             if (salon.joueurs[j]["idJoueur"] == idLastPlayer){
-                nbCarres = salon.joueurs[j].nbCarres;
+                var nb = nbCarres[salon.joueurs[j]["idJoueur"]];
+                //nbCarres = salon.joueurs[j].nbCarres;
                 couleur = salon.joueurs[j].color;
-                refListJoueurs.innerHTML += "<li style='color:" +couleur + "; font-weight: bolder;'>"+ j + " : " +nbCarres.toString() +"</li>";
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + "; font-weight: bolder;'>"+ j + " : " +nb.toString() +"</li>";
                 refListJoueurs.innerHTML += "<br/>";
             } else {
-                nbCarres = salon.joueurs[j].nbCarres;
+                var nb = nbCarres[salon.joueurs[j]["idJoueur"]];
+                //nbCarres = salon.joueurs[j].nbCarres;
                 couleur = salon.joueurs[j].color;
-                refListJoueurs.innerHTML += "<li style='color:" +couleur + ";'>"+ j +  " : " +nbCarres.toString() +"</li>";
+                refListJoueurs.innerHTML += "<li style='color:" +couleur + ";'>"+ j +  " : " +nb.toString() +"</li>";
                 refListJoueurs.innerHTML += "<br/>";
             }
 
@@ -249,14 +263,18 @@
     function incrementNbCarres(joueur){
         var n = joueur.nbCarres;
         n++;
+        /*
         $.ajax({
             type: "PUT",
-            url: 'data.php' + "/joueurs/" + joueur.idJoueur + "?nbCarres=" + n,
+            url: 'data.php',
+            data : {
+                "session": true,
+            }
             success: function(oRep){
                 console.log(oRep);
             },
             dataType: "json"
-        });
+        });*/
     }
 
     function endPartie(){
@@ -287,7 +305,7 @@
 
 <body onload="init();">
 
-<h1> Nom du Salon </h1>
+<h1 id="titre"> Nom du salon  </h1>
 
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.

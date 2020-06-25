@@ -22,6 +22,11 @@ function getColor($idJoueur) {
 	return SQLGetChamp($sql);
 }
 
+function nbCarres($idJoueur) {
+	$sql = "SELECT nbCarres FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
 function getNbVictoires($idJoueur) {
 	$sql = "SELECT nbVictoires FROM joueurs WHERE idJoueur='$idJoueur'";
 	return SQLGetChamp($sql);
@@ -29,6 +34,21 @@ function getNbVictoires($idJoueur) {
 
 function getNbDefaites($idJoueur) {
 	$sql = "SELECT nbDefaites FROM joueurs WHERE idJoueur='$idJoueur'";
+	return SQLGetChamp($sql);
+}
+
+function getJoueursSalon($idSalon) {
+	$sql = "SELECT idJoueurs FROM salons WHERE idSalon='$idSalon'";
+	return SQLGetChamp($sql);
+}
+
+function getNombreJoueurs($idSalon) {
+	$sql = "SELECT nbJoueurs FROM salons WHERE idSalon='$idSalon'" ;
+	return SQLGetChamp($sql);
+}
+
+function getNomSalon($idSalon) {
+	$sql = "SELECT nomSalon FROM salons WHERE idSalon='$idSalon'";
 	return SQLGetChamp($sql);
 }
 

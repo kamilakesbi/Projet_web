@@ -40,8 +40,8 @@ CREATE TABLE `salons` (
 --
 
 INSERT INTO `salons` (`idSalon`, `started`, `nomSalon`, `nbJoueurs`, `idJoueurs`) VALUES
-(0, 0, 'Salon1', 3 , '{"joueurs":[0,1,2]}'),
-(1, 0, 'Salon2', 2 , '{"joueurs":[0,1,2]}');
+(0, 0, 'Salon1', 3 , '0 1 2'),
+(1, 0, 'Salon2', 3 , '0 1 2');
 
 -- --------------------------------------------------------
 
@@ -85,10 +85,10 @@ CREATE TABLE `joueurs` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `joueurs` (`idJoueur`, `pseudo`, `passe`, `color`, `nbVictoires`,`nbDefaites`) VALUES
-(0, 'Kamil', '1234', 'blue', 2, 0),
-(1, 'Felix', 'ok', 'green', 0, 1),
-(2, 'Ulysse', '4567', 'RED', 0, 1);
+INSERT INTO `joueurs` (`idJoueur`, `pseudo`, `passe`, `color`, `nbVictoires`,`nbDefaites`, `nbCarres`) VALUES
+(0, 'Kamil', '1234', 'blue', 2, 0, 0),
+(1, 'Felix', 'ok', 'green', 0, 1, 0),
+(2, 'Ulysse', '4567', 'DarkOrange', 0, 1, 0);
 
 
 --
