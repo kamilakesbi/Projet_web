@@ -2,6 +2,9 @@
 	height:70px;
 }
 
+body {
+	background: linear-gradient(#FFF5EE, #FFF0F5);	
+}
 
 .image {
 	float: left;
