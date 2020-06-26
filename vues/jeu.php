@@ -291,21 +291,43 @@
 
 
     #listeJoueurs {
+		margin : 5px;
         border : 3px solid black ;
         float : left ;
-        display : inline
+        display : inline;
     }
 
-    canvas {
+    #canvas {
+		margin: 5px;
         border: 1px solid black ;
         display: inline;
         float : left;
     }
+	
+	
+	.test {
+		float: left;
+		display: none;
+		top : 160px;
+	
+	}
+	#nomSalon {
+        margin-top: 30px;
+        text-align: center;
+        border-style: solid;
+        padding-bottom: 10px;
+       	background: linear-gradient(#F0FFF0, #E2FCFB);
+    }
+	
+	.hauteur{
+		margin-top: 100px;
+	}
 </style>
 
 <body onload="init();">
 
-<h1 id="titre"> Nom du salon  </h1>
+<h1 id="titre" class="hauteur"> Nom du salon : </h1>
+ 
 
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.
