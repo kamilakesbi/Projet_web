@@ -326,7 +326,7 @@
 
 <body onload="init();">
 
-<h1 id="titre" class="hauteur"> Nom du salon : </h1>
+<h1 id="titre" class="hauteur"> Nom du salon </h1>
  
 
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
