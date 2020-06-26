@@ -86,8 +86,8 @@ CREATE TABLE `joueurs` (
 --
 
 INSERT INTO `joueurs` (`idJoueur`, `pseudo`, `passe`, `color`, `nbVictoires`,`nbDefaites`, `nbCarres`) VALUES
-(0, 'Kamil', '1234', 'blue', 2, 0, 0),
-(1, 'Felix', 'ok', 'green', 0, 1, 0),
+(0, 'Felix', 'ok', 'green', 0, 1, 0),
+(1, 'Kamil', 'ok', 'blue', 2, 0, 0),
 (2, 'Ulysse', '4567', 'DarkOrange', 0, 1, 0);
 
 

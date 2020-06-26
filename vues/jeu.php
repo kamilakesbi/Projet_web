@@ -118,8 +118,11 @@
                 } else {
                     joueur = whosTurn();
 
+                    //ctx.strokeStyle = joueur.color;
+                    //ctx.fill();
+
                     ctx.strokeStyle = joueur.color;
-                    ctx.fill();
+                    ctx.lineWidth = 3;
                     path_lines[p].clicked = true;
                     ctx.stroke(path_lines[p].object);
                     isSquare(Xcurseur, Ycurseur, joueur.color);
@@ -186,9 +189,10 @@
 
                                                                     path_squares.push(creatSquare(i * 50 + 10, j * 50 + 10, color));
 
-                                                                    idLastPlayer -=1;
-                                                                    idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
+                                                                    idLastPlayer = idLastPlayer - 1;
+                                                                    idLastPlayer_test = (( idLastPlayer % salon["nombreJoueurs"] ) + salon["nombreJoueurs"]) % salon["nombreJoueurs"];
                                                                     //Mettre de l'ajax ici pour update nbCarres
+                                                                    console.log(idLastPlayer);
 
                                                                     nbCarres[idLastPlayer]+=1;
 
@@ -215,11 +219,12 @@
     // Retourne un json contenant le joueur dont c'est le tour de jouer
     // incrémente idLastplayer
     function whosTurn(){
-        //console.log(idLastPlayer);
+        console.log(idLastPlayer);
         for (j in salon.joueurs){
             if (salon["joueurs"][j].idJoueur == idLastPlayer){
+                console.log(salon["joueurs"][j]);
                 idLastPlayer++;
-                idLastPlayer = idLastPlayer % salon["nombreJoueurs"];
+                idLastPlayer = ((idLastPlayer%salon["nombreJoueurs"])+salon["nombreJoueurs"])%salon["nombreJoueurs"];
                 return salon["joueurs"][j];
             }
         }
@@ -260,6 +265,7 @@
         }
     }
 
+    // à implémenter pour le passage à ajax
     function incrementNbCarres(joueur){
         var n = joueur.nbCarres;
         n++;
@@ -277,9 +283,11 @@
         });*/
     }
 
+    // à implémenter
     function endPartie(){
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
+                //
             }
         }
     }
@@ -288,6 +296,7 @@
 </script>
 
 <style>
+
 
 
     #listeJoueurs {
@@ -300,6 +309,7 @@
         border: 1px solid black ;
         display: inline;
         float : left;
+
     }
 </style>
 
