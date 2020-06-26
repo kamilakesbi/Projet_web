@@ -304,21 +304,7 @@
         float : left;
     }
 	
-	
-	.test {
-		float: left;
-		display: none;
-		top : 160px;
-	
-	}
-	#nomSalon {
-        margin-top: 30px;
-        text-align: center;
-        border-style: solid;
-        padding-bottom: 10px;
-       	background: linear-gradient(#F0FFF0, #E2FCFB);
-    }
-	
+
 	.hauteur{
 		margin-top: 100px;
 	}
@@ -326,7 +312,7 @@
 
 <body onload="init();">
 
-<h1 id="titre" class="hauteur"> Nom du salon </h1>
+<p class="hauteur"><h1 id="titre"> Nom du salon </h1></p>
  
 
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
