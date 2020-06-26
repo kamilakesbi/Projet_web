@@ -300,22 +300,30 @@
 
 
     #listeJoueurs {
+		margin : 5px;
         border : 3px solid black ;
         float : left ;
-        display : inline
+        display : inline;
     }
 
-    canvas {
+    #canvas {
+		margin: 5px;
         border: 1px solid black ;
         display: inline;
         float : left;
 
     }
+	
+
+	.hauteur{
+		margin-top: 100px;
+	}
 </style>
 
 <body onload="init();">
 
-<h1 id="titre"> Nom du salon  </h1>
+<p class="hauteur"><h1 id="titre"> Nom du salon </h1></p>
+ 
 
 <canvas id="canvas" width="500" height="500"  onmousemove="hoverOnLine(event);" onclick="clickOnLine(event);">
     Texte alternatif pour les navigateurs ne supportant pas Canvas.

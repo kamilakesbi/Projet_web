@@ -12,6 +12,11 @@ body {
 	min-height: 150px;
 	}
 
+.titre {
+	margin-bottom: 30px;
+	background: linear-gradient(#FDC777, #FA8519);
+    }
+
 #stitre {
 	text-align: center;
 }
@@ -53,6 +58,7 @@ body {
 }
 
 #titre {
+	background: linear-gradient(#FDC777, #FA8519);
 	border :1px solid black;
 	padding:20px;
 	margin:10px;

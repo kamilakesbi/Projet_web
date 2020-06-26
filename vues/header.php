@@ -24,7 +24,8 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 <body>
 
 <div id="banniere">
-
+<img src="image.png" class="image" alt="Le jeu des petits carrés" />
+<h1 id="stitre"> Jeu des carrés </h1>
 
 <?php
 
@@ -42,6 +43,5 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
     }
 ?>
 
-<h1 id="stitre"> Jeu des carrés </h1>
 
 </div>
